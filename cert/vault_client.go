@@ -48,7 +48,7 @@ func (c *vaultClient) Get() (*api.Client, error) {
 				case err == nil:
 					log.Printf("[INFO] vault: Unwrapped token %s", token)
 					c.client.SetToken(resp.Auth.ClientToken)
-				case strings.HasPrefix(err.Error(), "no value found at"):
+				case resp.StatusCode == 400:
 					// not a wrapped token
 				default:
 					return nil, err
